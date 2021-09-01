@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+  parameters
+  {
+    string(name: 'Dilek', defaultValue: 'Hi', description: 'hello')
+  }
+    stages {
+        stage('Build') {
+            steps {
+               git credentialsId: '4a643c50-6c85-4959-83ea-85577ed78a80', url: 'https://github.com/dilekd6/Hello_java.git'
+               bat '''javac Hello.java
+               java Hello'''
+              echo "${params.Greeting}"
+            }
+        }
+    }
+}
