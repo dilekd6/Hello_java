@@ -1,9 +1,5 @@
 pipeline {
     agent any
-  parameters
-  {
-    string(name: 'Dilek', defaultValue: 'Hi', description: 'hello')
-  }
     stages {
         stage('Build') {
             steps {
