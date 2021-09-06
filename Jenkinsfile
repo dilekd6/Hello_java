@@ -1,12 +1,36 @@
 pipeline {
     agent any
+    parameters {
+        booleanParams(name: 'executeTests', defaultVariable: true, description: '')
+
+    }
     stages {
+        stage('init')
+        {
+            steps{
+                script{
+                    gv=load "script.groovy"
+                }
+            }
+        }
         stage('Build') {
-            steps {
-               git credentialsId: '4a643c50-6c85-4959-83ea-85577ed78a80', url: 'https://github.com/dilekd6/Hello_java.git'
-               bat '''javac Hello.java
-               java Hello'''
-              echo "${params.Greeting}"
+            steps {      
+                gv.buildApp()
+            }
+        }
+        stage('Test'){
+            When {
+                expression {
+                    params.executeTests == true
+                }
+            }
+            steps{
+                gv.testApp()
+            }
+        }
+        stage('Deploy'){
+            steps{
+                gv.deployApp()
             }
         }
     }
