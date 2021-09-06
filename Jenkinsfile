@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    parameters {
-        booleanParams(name: 'executeTests', defaultVariable: true, description: '')
-
-    }
     stages {
         stage('init')
         {
@@ -19,11 +15,6 @@ pipeline {
             }
         }
         stage('Test'){
-            When {
-                expression {
-                    params.executeTests == true
-                }
-            }
             steps{
                 gv.testApp()
             }
